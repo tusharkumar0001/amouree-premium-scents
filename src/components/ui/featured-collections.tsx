@@ -3,6 +3,8 @@ import { Card, CardContent } from "./card";
 import perfume1 from "@/assets/perfume-1.jpg";
 import perfume2 from "@/assets/perfume-2.jpg";
 import perfume3 from "@/assets/perfume-3.jpg";
+import perfume4 from "@/assets/perfume-4.jpg";
+import perfume5 from "@/assets/perfume-5.jpg";
 
 const FeaturedCollections = () => {
   const collections = [
@@ -12,7 +14,8 @@ const FeaturedCollections = () => {
       description: "A timeless fragrance that captures the essence of eternal beauty",
       price: "$158",
       image: perfume1,
-      category: "Floral"
+      category: "Floral",
+      featured: false
     },
     {
       id: 2,
@@ -20,7 +23,8 @@ const FeaturedCollections = () => {
       description: "Golden light in a bottle, radiating warmth and sophistication",
       price: "$168",
       image: perfume2,
-      category: "Oriental"
+      category: "Oriental",
+      featured: false
     },
     {
       id: 3,
@@ -28,7 +32,26 @@ const FeaturedCollections = () => {
       description: "An enigmatic scent for those who embrace the mystery of night",
       price: "$178",
       image: perfume3,
-      category: "Woody"
+      category: "Woody",
+      featured: false
+    },
+    {
+      id: 4,
+      name: "Diamant Éclat",
+      description: "Pure luxury crystallized in an extraordinary platinum edition",
+      price: "$298",
+      image: perfume4,
+      category: "Exclusive",
+      featured: true
+    },
+    {
+      id: 5,
+      name: "Royale Émeraude",
+      description: "A majestic blend worthy of royalty, crafted with rare emerald essences",
+      price: "$388",
+      image: perfume5,
+      category: "Royal",
+      featured: true
     }
   ];
 
@@ -47,12 +70,16 @@ const FeaturedCollections = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {collections.map((product, index) => (
             <Card 
               key={product.id} 
-              className="group overflow-hidden border-0 shadow-card hover:shadow-luxury transition-all duration-500 bg-gradient-card animate-scale-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className={`group overflow-hidden border-0 transition-all duration-700 animate-scale-in relative ${
+                product.featured 
+                  ? 'shadow-premium hover:shadow-glow bg-gradient-premium xl:col-span-1' 
+                  : 'shadow-card hover:shadow-luxury bg-gradient-card'
+              }`}
+              style={{ animationDelay: `${index * 0.15}s` }}
             >
               <CardContent className="p-0">
                 {/* Product Image */}
@@ -65,9 +92,20 @@ const FeaturedCollections = () => {
                   <div className="absolute inset-0 bg-luxury-black/0 group-hover:bg-luxury-black/10 transition-all duration-300"></div>
                   
                   {/* Category Badge */}
-                  <div className="absolute top-4 left-4 bg-luxury-gold/90 text-luxury-black px-3 py-1 rounded-full text-sm font-medium">
+                  <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-medium ${
+                    product.featured 
+                      ? 'bg-gradient-luxury text-luxury-black shadow-gold animate-luxury-pulse' 
+                      : 'bg-luxury-gold/90 text-luxury-black'
+                  }`}>
                     {product.category}
                   </div>
+
+                  {/* Premium Badge for Featured Items */}
+                  {product.featured && (
+                    <div className="absolute top-4 right-4 bg-luxury-black/80 text-luxury-gold px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
+                      PREMIUM
+                    </div>
+                  )}
 
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-luxury-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -82,19 +120,31 @@ const FeaturedCollections = () => {
 
                 {/* Product Info */}
                 <div className="p-6">
-                  <h3 className="font-luxury text-xl font-semibold text-foreground mb-2 group-hover:text-luxury-gold transition-colors duration-300">
+                  <h3 className={`font-luxury text-xl font-semibold mb-2 transition-colors duration-300 ${
+                    product.featured 
+                      ? 'text-foreground group-hover:text-luxury-gold bg-gradient-shimmer bg-clip-text' 
+                      : 'text-foreground group-hover:text-luxury-gold'
+                  }`}>
                     {product.name}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="font-luxury text-2xl font-bold text-luxury-gold">
+                    <span className={`font-luxury text-2xl font-bold ${
+                      product.featured 
+                        ? 'text-luxury-gold animate-luxury-pulse' 
+                        : 'text-luxury-gold'
+                    }`}>
                       {product.price}
                     </span>
                     <Button 
                       size="sm"
-                      className="bg-luxury-gold hover:bg-luxury-gold/90 text-luxury-black font-medium px-6 shadow-gold hover:shadow-lg transition-all duration-300"
+                      className={`font-medium px-6 transition-all duration-300 ${
+                        product.featured 
+                          ? 'bg-gradient-luxury hover:shadow-glow text-luxury-black shadow-gold hover:scale-105' 
+                          : 'bg-luxury-gold hover:bg-luxury-gold/90 text-luxury-black shadow-gold hover:shadow-lg'
+                      }`}
                     >
                       Add to Cart
                     </Button>
